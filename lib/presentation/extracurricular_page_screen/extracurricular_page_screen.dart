@@ -60,7 +60,7 @@ class ExtracurricularPageScreen extends StatelessWidget {
                                               .titleMediumffffffff)
                                     ]),
                                     textAlign: TextAlign.left))),
-                        SizedBox(height: 11.v),
+                        SizedBox(height: 5.v),
                         CustomImageView(
                             imagePath: ImageConstant.imgArrowDown,
                             height: 5.v,

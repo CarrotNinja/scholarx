@@ -27,11 +27,11 @@ class SignUpPageState extends State<SignUpPage>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.onErrorContainer,
-        resizeToAvoidBottomInset: false,
-        body: SizedBox(
+    return Scaffold(
+      backgroundColor: theme.colorScheme.onErrorContainer,
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
             padding: EdgeInsets.only(
@@ -44,7 +44,7 @@ class SignUpPageState extends State<SignUpPage>
                 decoration: AppDecoration.fillOnErrorContainer,
                 child: Column(
                   children: [
-                    SizedBox(height: 37.v),
+                    SizedBox(height: 10.v),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -65,9 +65,9 @@ class SignUpPageState extends State<SignUpPage>
                                 style: theme.textTheme.bodyMedium,
                               ),
                             ),
-                            SizedBox(height: 35.v),
+                            SizedBox(height: 10.v),
                             _buildSignInOptionsStack(context),
-                            SizedBox(height: 37.v),
+                            SizedBox(height: 10.v),
                             Text(
                               "Other sign in options",
                               style: CustomTextStyles.bodyMediumBlack9000115,
@@ -195,7 +195,7 @@ class SignUpPageState extends State<SignUpPage>
   /// Section Widget
   Widget _buildSignInOptionsStack(BuildContext context) {
     return SizedBox(
-      height: 56.v,
+      height: 30.v,
       width: 353.h,
       child: Stack(
         alignment: Alignment.center,
@@ -211,7 +211,7 @@ class SignUpPageState extends State<SignUpPage>
             ),
           ),
           CustomElevatedButton(
-            height: 56.v,
+            height: 30.v,
             width: 353.h,
             text: "Sign up",
             buttonStyle: CustomButtonStyles.fillBlack,

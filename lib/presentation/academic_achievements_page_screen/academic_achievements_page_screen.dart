@@ -40,12 +40,11 @@ class AcademicAchievementsPageScreen extends StatelessWidget {
                                             .titleMediumffffffff)
                                   ]),
                                   textAlign: TextAlign.left))),
-                      SizedBox(height: 22.v),
+                      SizedBox(height: 10.v),
                       CustomImageView(
                           imagePath: ImageConstant.imgArrowDown,
                           height: 5.v,
                           width: 17.h),
-                      SizedBox(height: 6.v),
                       CustomImageView(
                           imagePath: ImageConstant.imgFrame1,
                           height: 64.v,

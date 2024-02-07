@@ -1,4 +1,4 @@
-package com.myscholarx.app
+package com.example.scholarx
 
 import io.flutter.embedding.android.FlutterActivity
 

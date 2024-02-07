@@ -18,13 +18,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           theme: theme,
           title: 'scholarx',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.homePageScreen,
+          initialRoute: AppRoutes.jumpstartPageScreen,
           routes: AppRoutes.routes,
         );
       },

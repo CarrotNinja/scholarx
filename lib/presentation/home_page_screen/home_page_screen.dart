@@ -10,10 +10,10 @@ class HomePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.black90001,
-        body: Container(
+    return Scaffold(
+      backgroundColor: appTheme.black90001,
+      body: SafeArea(
+        child: Container(
           width: 365.h,
           margin: EdgeInsets.symmetric(horizontal: 3.h),
           decoration: AppDecoration.fillGray,
@@ -31,8 +31,8 @@ class HomePageScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: _buildBottomBarSection(context),
       ),
+      bottomNavigationBar: _buildBottomBarSection(context),
     );
   }
 

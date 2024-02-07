@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
+import 'package:scholarx/presentation/sign_up_page/sign_up_page.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
 
 class JumpstartPageScreen extends StatelessWidget {
@@ -10,10 +11,10 @@ class JumpstartPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.black900,
-        body: Container(
+    return Scaffold(
+      backgroundColor: appTheme.black900,
+      body: SafeArea(
+        child: Container(
           width: double.maxFinite,
           padding: EdgeInsets.symmetric(vertical: 23.v),
           child: Column(
@@ -55,7 +56,7 @@ class JumpstartPageScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.v),
+              SizedBox(height: 15.v),
               Container(
                 width: 312.h,
                 margin: EdgeInsets.symmetric(horizontal: 49.h),
@@ -86,8 +87,8 @@ class JumpstartPageScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: _buildGetStartedButton(context),
       ),
+      bottomNavigationBar: _buildGetStartedButton(context),
     );
   }
 
@@ -103,6 +104,7 @@ class JumpstartPageScreen extends StatelessWidget {
       ),
       buttonStyle: CustomButtonStyles.fillOnError,
       buttonTextStyle: CustomTextStyles.titleMediumPoppins,
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.appNavigationScreen);},
     );
   }
 }

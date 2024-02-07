@@ -54,7 +54,7 @@ class OtherPageScreen extends StatelessWidget {
                             style: CustomTextStyles.titleMediumffffffff)
                       ]),
                       textAlign: TextAlign.left),
-                  SizedBox(height: 19.v),
+                  SizedBox(height: 10.v),
                   CustomImageView(
                       imagePath: ImageConstant.imgArrowDown,
                       height: 5.v,

@@ -46,12 +46,12 @@ class AwardsPageScreen extends StatelessWidget {
                             style: CustomTextStyles.titleMediumffffffff)
                       ]),
                       textAlign: TextAlign.left),
-                  SizedBox(height: 19.v),
+                  SizedBox(height: 10.v),
                   CustomImageView(
                       imagePath: ImageConstant.imgArrowDown,
                       height: 5.v,
                       width: 17.h),
-                  SizedBox(height: 6.v),
+                  SizedBox(height: 5.v),
                   CustomImageView(
                       imagePath: ImageConstant.imgFrame1,
                       height: 64.v,
