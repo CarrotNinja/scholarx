@@ -14,13 +14,13 @@ class HomePageScreen extends StatelessWidget {
       backgroundColor: appTheme.black90001,
       body: SafeArea(
         child: Container(
-          width: 365.h,
+          width: double.maxFinite,
           margin: EdgeInsets.symmetric(horizontal: 3.h),
           decoration: AppDecoration.fillGray,
           child: Column(
             children: [
               _buildHomeSection(context),
-              SizedBox(height: 14.v),
+              SizedBox(height: 8.v),
               _buildGenerateYourResumeSection(context),
               SizedBox(height: 11.v),
               _buildAssignmentsSection(context),
@@ -39,7 +39,7 @@ class HomePageScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildHomeSection(BuildContext context) {
     return Container(
-      width: 365.h,
+      width: double.maxFinite,
       padding: EdgeInsets.symmetric(
         horizontal: 30.h,
         vertical: 15.v,
@@ -79,7 +79,7 @@ class HomePageScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildGenerateYourResumeSection(BuildContext context) {
     return Container(
-      width: 365.h,
+      width: double.maxFinite,
       padding: EdgeInsets.symmetric(
         horizontal: 106.h,
         vertical: 17.v,
@@ -111,7 +111,7 @@ class HomePageScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildAssignmentsSection(BuildContext context) {
     return Container(
-      width: 364.h,
+      width: double.maxFinite,
       padding: EdgeInsets.symmetric(
         horizontal: 29.h,
         vertical: 13.v,

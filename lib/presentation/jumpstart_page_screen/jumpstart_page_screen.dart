@@ -56,9 +56,9 @@ class JumpstartPageScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 15.v),
+              SizedBox(height: 5.v),
               Container(
-                width: 312.h,
+                width: 350.h,
                 margin: EdgeInsets.symmetric(horizontal: 49.h),
                 child: Text(
                   "Create, Connect, Showcase, Succeed",
@@ -66,15 +66,15 @@ class JumpstartPageScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: CustomTextStyles.headlineLargePoppins.copyWith(
-                    height: 1.50,
+                    height: 1.6,
                   ),
                 ),
               ),
               SizedBox(height: 16.v),
               SizedBox(
-                width: 141.h,
+                width: 312.h,
                 child: Text(
-                  "Take your portfolio\nto the next level",
+                  "Take your portfolio to the next level",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class JumpstartPageScreen extends StatelessWidget {
       ),
       buttonStyle: CustomButtonStyles.fillOnError,
       buttonTextStyle: CustomTextStyles.titleMediumPoppins,
-      onPressed: (){Navigator.pushNamed(context, AppRoutes.appNavigationScreen);},
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.signUpPageTabContainerScreen);},
     );
   }
 }

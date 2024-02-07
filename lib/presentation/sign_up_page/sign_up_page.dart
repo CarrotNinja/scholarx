@@ -33,50 +33,72 @@ class SignUpPageState extends State<SignUpPage>
       body: SafeArea(
         child: SizedBox(
           width: SizeUtils.width,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Container(
-                width: double.maxFinite,
-                decoration: AppDecoration.fillOnErrorContainer,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.v),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 20.h,
-                          right: 37.h,
-                        ),
-                        child: Column(
-                          children: [
-                            _buildEmailInput(context),
-                            SizedBox(height: 25.v),
-                            _buildPasswordInput(context),
-                            SizedBox(height: 26.v),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                "Forgot password?",
-                                style: theme.textTheme.bodyMedium,
+          child: Form(
+            key: _formKey,
+            child: Container(
+              width: double.maxFinite,
+              decoration: AppDecoration.fillOnErrorContainer,
+              child: Column(
+                children: [
+                  SizedBox(height: 37.v),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 37.h,
+                        right: 37.h,
+                      ),
+                      child: Column(
+                        children: [
+                          _buildEmailInput(context),
+                          SizedBox(height: 25.v),
+                          _buildPasswordInput(context),
+                          SizedBox(height: 26.v),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Forgot password?",
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ),
+                          SizedBox(height: 35.v),
+                          _buildSignInOptionsStack(context),
+                          SizedBox(height: 37.v),
+                          Text(
+                            "Other sign in options",
+                            style: CustomTextStyles.bodyMediumBlack9000115,
+                          ),
+                          SizedBox(height: 14.v),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomIconButton(
+                                height: 50.adaptSize,
+                                width: 50.adaptSize,
+                                padding: EdgeInsets.all(15.h),
+                                decoration:
+                                    IconButtonStyleHelper.outlineBlueGray,
+                                child: CustomImageView(
+                                  imagePath:
+                                      ImageConstant.imgSocialIconFacebook,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10.v),
-                            _buildSignInOptionsStack(context),
-                            SizedBox(height: 10.v),
-                            Text(
-                              "Other sign in options",
-                              style: CustomTextStyles.bodyMediumBlack9000115,
-                            ),
-                            SizedBox(height: 14.v),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomIconButton(
+                              Padding(
+                                padding: EdgeInsets.only(left: 11.h),
+                                child: CustomIconButton(
+                                  height: 50.adaptSize,
+                                  width: 50.adaptSize,
+                                  padding: EdgeInsets.all(15.h),
+                                  decoration:
+                                      IconButtonStyleHelper.outlineBlueGray,
+                                  child: CustomImageView(
+                                    imagePath: ImageConstant.imgGoogle,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.h),
+                                child: CustomIconButton(
                                   height: 50.adaptSize,
                                   width: 50.adaptSize,
                                   padding: EdgeInsets.all(15.h),
@@ -84,44 +106,17 @@ class SignUpPageState extends State<SignUpPage>
                                       IconButtonStyleHelper.outlineBlueGray,
                                   child: CustomImageView(
                                     imagePath:
-                                        ImageConstant.imgSocialIconFacebook,
+                                        ImageConstant.imgSocialIconApple,
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 11.h),
-                                  child: CustomIconButton(
-                                    height: 50.adaptSize,
-                                    width: 50.adaptSize,
-                                    padding: EdgeInsets.all(15.h),
-                                    decoration:
-                                        IconButtonStyleHelper.outlineBlueGray,
-                                    child: CustomImageView(
-                                      imagePath: ImageConstant.imgGoogle,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10.h),
-                                  child: CustomIconButton(
-                                    height: 50.adaptSize,
-                                    width: 50.adaptSize,
-                                    padding: EdgeInsets.all(15.h),
-                                    decoration:
-                                        IconButtonStyleHelper.outlineBlueGray,
-                                    child: CustomImageView(
-                                      imagePath:
-                                          ImageConstant.imgSocialIconApple,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -195,7 +190,7 @@ class SignUpPageState extends State<SignUpPage>
   /// Section Widget
   Widget _buildSignInOptionsStack(BuildContext context) {
     return SizedBox(
-      height: 30.v,
+      height: 56.v,
       width: 353.h,
       child: Stack(
         alignment: Alignment.center,
@@ -211,7 +206,7 @@ class SignUpPageState extends State<SignUpPage>
             ),
           ),
           CustomElevatedButton(
-            height: 30.v,
+            height: 56.v,
             width: 353.h,
             text: "Sign up",
             buttonStyle: CustomButtonStyles.fillBlack,

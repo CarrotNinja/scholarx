@@ -78,6 +78,7 @@ class CustomTextStyles {
   static get headlineLargePoppins =>
       theme.textTheme.headlineLarge!.poppins.copyWith(
         fontWeight: FontWeight.w600,
+        fontSize: 28.fSize,
       );
   static get headlineLargePoppinsBlack90001 =>
       theme.textTheme.headlineLarge!.poppins.copyWith(

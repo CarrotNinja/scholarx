@@ -27,35 +27,37 @@ class SignUpPageTabContainerScreenState
     return SafeArea(
         child: Scaffold(
             backgroundColor: theme.colorScheme.onErrorContainer,
-            body: SizedBox(
-                width: double.maxFinite,
-                child: Column(children: [
-                  SizedBox(height: 30.v),
-                  _buildThirtyRow(context),
-                  SizedBox(height: 36.v),
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(left: 105.h),
-                          child: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "Scholar",
-                                    style:
-                                        CustomTextStyles.displayMediumff000000),
-                                TextSpan(
-                                    text: "X",
-                                    style: theme.textTheme.displayMedium)
-                              ]),
-                              textAlign: TextAlign.left))),
-                  SizedBox(height: 28.v),
-                  _buildTabview(context),
-                  SizedBox(
-                      height: 494.v,
-                      child: TabBarView(
-                          controller: tabviewController,
-                          children: [SignUpPage(), SignUpPage()]))
-                ]))));
+            body: SingleChildScrollView(
+              child: SizedBox(
+                  width: double.maxFinite,
+                  child: Column(children: [
+                    SizedBox(height: 30.v),
+                    _buildThirtyRow(context),
+                    SizedBox(height: 15.v),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 105.h),
+                            child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "Scholar",
+                                      style:
+                                          CustomTextStyles.displayMediumff000000),
+                                  TextSpan(
+                                      text: "X",
+                                      style: theme.textTheme.displayMedium)
+                                ]),
+                                textAlign: TextAlign.left))),
+                    SizedBox(height: 10.v),
+                    _buildTabview(context),
+                    SizedBox(
+                        height: 494.v,
+                        child: TabBarView(
+                            controller: tabviewController,
+                            children: [SignUpPage(), SignUpPage()]))
+                  ])),
+            )));
   }
 
   /// Section Widget
@@ -93,7 +95,7 @@ class SignUpPageTabContainerScreenState
     return Container(
         height: 36.v,
         width: 353.h,
-        margin: EdgeInsets.only(left: 20.h),
+        
         decoration: BoxDecoration(
             color: appTheme.gray200, borderRadius: BorderRadius.circular(10.h)),
         child: TabBar(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191771154135",
+    "project_id": "scholarx-7d882",
+    "storage_bucket": "scholarx-7d882.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191771154135:android:a88ecc798947d38e7e8292",
+        "android_client_info": {
+          "package_name": "com.example.scholarx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYRery5TRhksIiDeTGrVdWB4-85ig0FN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

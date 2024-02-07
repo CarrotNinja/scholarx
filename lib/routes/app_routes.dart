@@ -3,7 +3,7 @@ import 'package:scholarx/presentation/home_page_screen/home_page_screen.dart';
 import 'package:scholarx/presentation/jumpstart_page_screen/jumpstart_page_screen.dart';
 import 'package:scholarx/presentation/opening_screen/opening_screen.dart';
 import 'package:scholarx/presentation/sign_up_page_tab_container_screen/sign_up_page_tab_container_screen.dart';
-import 'package:scholarx/presentation/register_screen/register_screen.dart';
+
 import 'package:scholarx/presentation/profile_page_screen/profile_page_screen.dart';
 import 'package:scholarx/presentation/academic_page_screen/academic_page_screen.dart';
 import 'package:scholarx/presentation/gpa_page_screen/gpa_page_screen.dart';
@@ -59,7 +59,6 @@ class AppRoutes {
     jumpstartPageScreen: (context) => JumpstartPageScreen(),
     openingScreen: (context) => OpeningScreen(),
     signUpPageTabContainerScreen: (context) => SignUpPageTabContainerScreen(),
-    registerScreen: (context) => RegisterScreen(),
     profilePageScreen: (context) => ProfilePageScreen(),
     academicPageScreen: (context) => AcademicPageScreen(),
     gpaPageScreen: (context) => GpaPageScreen(),
