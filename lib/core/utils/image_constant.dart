@@ -2,26 +2,6 @@ class ImageConstant {
   // Image folder path
   static String imagePath = 'assets/images';
 
-  // Home Page images
-  static String imgEllipse1 = '$imagePath/img_ellipse_1.png';
-
-  static String imgFluentClock28Regular =
-      '$imagePath/img_fluent_clock_28_regular.svg';
-
-  static String imgImageRemovebgPreview2 =
-      '$imagePath/img_image_removebg_preview_2.png';
-
-  static String imgAkarIconsPerson = '$imagePath/img_akar_icons_person.svg';
-
-  static String imgArrowRight = '$imagePath/img_arrow_right.svg';
-
-  static String imgClarityHelpLine = '$imagePath/img_clarity_help_line.svg';
-
-  static String imgMaterialSymbolsHome =
-      '$imagePath/img_material_symbols_home.svg';
-
-  static String imgEllipse132x32 = '$imagePath/img_ellipse_1_32x32.png';
-
   // Jumpstart Page images
   static String imgShape1 = '$imagePath/img_shape_1.png';
 
@@ -56,6 +36,27 @@ class ImageConstant {
   static String imgLocation = '$imagePath/img_location.svg';
 
   static String imgArrowLeft = '$imagePath/img_arrow_left.svg';
+
+  // Home Page images
+  static String imgEllipse1 = '$imagePath/img_ellipse_1.png';
+
+  static String imgFluentClock28Regular =
+      '$imagePath/img_fluent_clock_28_regular.svg';
+
+  static String imgImageRemovebgPreview2 =
+      '$imagePath/img_image_removebg_preview_2.png';
+
+  static String imgAkarIconsPerson = '$imagePath/img_akar_icons_person.svg';
+
+  static String imgArrowRight = '$imagePath/img_arrow_right.svg';
+
+  static String imgClarityHelpLineIndigoA70002 =
+      '$imagePath/img_clarity_help_line_indigo_a700_02.svg';
+
+  static String imgMaterialSymbolsHome =
+      '$imagePath/img_material_symbols_home.svg';
+
+  static String imgEllipse127x26 = '$imagePath/img_ellipse_1_27x26.png';
 
   // Common images
   static String imgIcon = '$imagePath/img_icon.svg';

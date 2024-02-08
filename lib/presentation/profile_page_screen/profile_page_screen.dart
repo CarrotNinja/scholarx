@@ -4,10 +4,7 @@ import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:scholarx/widgets/custom_outlined_button.dart';
 
 class ProfilePageScreen extends StatelessWidget {
-  const ProfilePageScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const ProfilePageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

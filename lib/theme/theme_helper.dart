@@ -185,7 +185,7 @@ class ColorSchemes {
   static final primaryColorScheme = ColorScheme.light(
     // Primary colors
     primary: Color(0XFF445CDD),
-    primaryContainer: Color(0X19131313),
+    primaryContainer: Color(0XDE131313),
     secondaryContainer: Color(0XFF3C5A99),
 
     // Error colors
@@ -228,6 +228,7 @@ class PrimaryColors {
   Color get indigo900 => Color(0XFF0F2E7E);
   Color get indigoA700 => Color(0XFF3D3AE7);
   Color get indigoA70001 => Color(0XFF3D39E6);
+  Color get indigoA70002 => Color(0XFF0028FF);
 
   // LightBlue
   Color get lightBlue300 => Color(0XFF51C0FF);

@@ -9,9 +9,6 @@ class AppDecoration {
   static BoxDecoration get fillBlack90001 => BoxDecoration(
         color: appTheme.black90001,
       );
-  static BoxDecoration get fillGray => BoxDecoration(
-        color: appTheme.gray20001,
-      );
   static BoxDecoration get fillOnErrorContainer => BoxDecoration(
         color: theme.colorScheme.onErrorContainer,
       );
@@ -21,6 +18,19 @@ class AppDecoration {
 
   // Outline decorations
   static BoxDecoration get outlineBlack => BoxDecoration(
+        color: appTheme.black90001.withOpacity(0.6),
+        border: Border.all(
+          color: appTheme.black90001,
+          width: 1.h,
+        ),
+      );
+  static BoxDecoration get outlineBlack90001 => BoxDecoration(
+        border: Border.all(
+          color: appTheme.black90001,
+          width: 1.h,
+        ),
+      );
+  static BoxDecoration get outlineBlack900011 => BoxDecoration(
         color: theme.colorScheme.primaryContainer.withOpacity(1),
         boxShadow: [
           BoxShadow(
@@ -34,7 +44,7 @@ class AppDecoration {
           ),
         ],
       );
-  static BoxDecoration get outlineBlack90001 => BoxDecoration(
+  static BoxDecoration get outlineBlack900012 => BoxDecoration(
         color: theme.colorScheme.onErrorContainer,
         boxShadow: [
           BoxShadow(
@@ -48,7 +58,7 @@ class AppDecoration {
           ),
         ],
       );
-  static BoxDecoration get outlineBlack900011 => BoxDecoration(
+  static BoxDecoration get outlineBlack900013 => BoxDecoration(
         color: theme.colorScheme.onErrorContainer,
         boxShadow: [
           BoxShadow(
@@ -58,33 +68,6 @@ class AppDecoration {
             offset: Offset(
               0,
               0,
-            ),
-          ),
-        ],
-      );
-  static BoxDecoration get outlineBlack900012 => BoxDecoration(
-        color: appTheme.black90001.withOpacity(0.6),
-        border: Border.all(
-          color: appTheme.black90001,
-          width: 1.h,
-        ),
-      );
-  static BoxDecoration get outlineBlack900013 => BoxDecoration(
-        border: Border.all(
-          color: appTheme.black90001,
-          width: 1.h,
-        ),
-      );
-  static BoxDecoration get outlineBlueGrayF => BoxDecoration(
-        color: appTheme.black90001,
-        boxShadow: [
-          BoxShadow(
-            color: appTheme.blueGray9007f,
-            spreadRadius: 2.h,
-            blurRadius: 2.h,
-            offset: Offset(
-              40,
-              40,
             ),
           ),
         ],
@@ -106,8 +89,8 @@ class BorderRadiusStyle {
       );
 
   // Rounded borders
-  static BorderRadius get roundedBorder10 => BorderRadius.circular(
-        10.h,
+  static BorderRadius get roundedBorder12 => BorderRadius.circular(
+        12.h,
       );
   static BorderRadius get roundedBorder6 => BorderRadius.circular(
         6.h,
