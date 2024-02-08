@@ -114,6 +114,7 @@ class HomePageScreen extends StatelessWidget {
             text: "Click Me!",
             margin: EdgeInsets.only(right: 17.h),
             buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            onPressed: () async{FirebaseAuth.instance.signOut();}
           ),
         ],
       ),
