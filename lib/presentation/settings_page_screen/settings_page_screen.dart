@@ -166,11 +166,12 @@ class SettingsPageScreen extends StatelessWidget {
         height: 86.v,
         width: 342.h,
         margin: EdgeInsets.only(left: 8.h),
-        child: Stack(alignment: Alignment.topLeft, children: [
-          CustomTextFormField(
+        child: Stack(alignment: Alignment.bottomCenter, children: [
+          
+          Container(
               width: 342.h,
-              controller: editTextController,
-              textInputAction: TextInputAction.done,
+              height: 60,
+              color: Colors.black,
               alignment: Alignment.bottomCenter),
           Align(
               alignment: Alignment.topLeft,

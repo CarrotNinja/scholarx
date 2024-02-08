@@ -1,11 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:scholarx/widgets/custom_outlined_button.dart';
 
 class ProfilePageScreen extends StatelessWidget {
-  const ProfilePageScreen({super.key});
-
+  ProfilePageScreen({super.key});
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,14 +48,10 @@ class ProfilePageScreen extends StatelessWidget {
               ),
               SizedBox(height: 7.v),
               Text(
-                "User Name",
+                user.email!,
                 style: CustomTextStyles.bodyLargeHanumanOnErrorContainer,
               ),
-              SizedBox(height: 8.v),
-              Text(
-                "USER HANDLE",
-                style: theme.textTheme.labelLarge,
-              ),
+              
               SizedBox(height: 18.v),
               SizedBox(
                 width: 236.h,
@@ -89,7 +86,9 @@ class ProfilePageScreen extends StatelessWidget {
                 width: 17.h,
               ),
               SizedBox(height: 6.v),
-              CustomImageView(
+              GestureDetector(
+                onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                child: CustomImageView(
                 imagePath: ImageConstant.imgFrame1,
                 height: 64.v,
                 width: 156.h,
@@ -97,6 +96,7 @@ class ProfilePageScreen extends StatelessWidget {
                   12.h,
                 ),
               ),
+              ),          
             ],
           ),
         ),
@@ -109,6 +109,7 @@ class ProfilePageScreen extends StatelessWidget {
     return CustomElevatedButton(
       text: "Academic",
       margin: EdgeInsets.symmetric(horizontal: 54.h),
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.academicAchievementsPageScreen);},
     );
   }
 
@@ -122,6 +123,7 @@ class ProfilePageScreen extends StatelessWidget {
         right: 56.h,
       ),
       buttonStyle: CustomButtonStyles.outlineDeepOrange,
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.awardsPageScreen);},
     );
   }
 
@@ -133,6 +135,7 @@ class ProfilePageScreen extends StatelessWidget {
         left: 54.h,
         right: 56.h,
       ),
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.clubsPageScreen);},
     );
   }
 
@@ -143,6 +146,7 @@ class ProfilePageScreen extends StatelessWidget {
       text: "Extracurriculars (ECs)",
       margin: EdgeInsets.symmetric(horizontal: 54.h),
       buttonStyle: CustomButtonStyles.outlineOnErrorContainer,
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.extracurricularPageScreen);},
     );
   }
 
@@ -154,6 +158,7 @@ class ProfilePageScreen extends StatelessWidget {
         left: 54.h,
         right: 56.h,
       ),
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.otherPageScreen);},
     );
   }
 }

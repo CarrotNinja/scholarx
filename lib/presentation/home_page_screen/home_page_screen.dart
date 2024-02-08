@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePageScreen extends StatelessWidget {
-  const HomePageScreen({Key? key})
-      : super(
-          key: key,
-        );
-
+  HomePageScreen({super.key});
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,7 +77,7 @@ class HomePageScreen extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              "User Name",
+                user.email!,
               style: CustomTextStyles.bodyMediumRobotoOnErrorContainer,
             ),
           ),
@@ -160,7 +158,9 @@ class HomePageScreen extends StatelessWidget {
   }
 
   Widget _buildAccountSettingsSection(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap:(){Navigator.pushNamed(context, AppRoutes.settingsPageScreen);} ,
+      child: Container(
       margin: EdgeInsets.only(left: 6.h),
       padding: EdgeInsets.symmetric(
         horizontal: 6.h,
@@ -210,6 +210,7 @@ class HomePageScreen extends StatelessWidget {
           SizedBox(height: 3.v),
         ],
       ),
+    ),
     );
   }
 
@@ -272,7 +273,9 @@ class HomePageScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildFaqsSection(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: (){Navigator.pushNamed(context,AppRoutes.faqPageScreen);},
+      child: Container(
       margin: EdgeInsets.only(left: 6.h),
       padding: EdgeInsets.symmetric(
         horizontal: 6.h,
@@ -322,7 +325,11 @@ class HomePageScreen extends StatelessWidget {
           
         ],
       ),
+    ),
     );
+    
+    
+    
   }
 
   /// Section Widget
@@ -333,7 +340,7 @@ class HomePageScreen extends StatelessWidget {
         right: 18.h,
       ),
       decoration: BoxDecoration(
-        color: theme.colorScheme.onErrorContainer,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(
           12.h,
         ),
@@ -350,27 +357,18 @@ class HomePageScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomImageView(
-              imagePath: ImageConstant.imgMaterialSymbolsHome,
-              height: 28.v,
-              width: 27.h,
-            ),
-            Container(
-              height: 27.v,
-              width: 26.h,
-              margin: EdgeInsets.only(left: 32.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  13.h,
-                ),
-                image: DecorationImage(
-                  image: AssetImage(
-                    ImageConstant.imgEllipse127x26,
-                  ),
-                  fit: BoxFit.cover,
+            
+             GestureDetector(
+                onTap: (){Navigator.pushNamed(context, AppRoutes.profilePageScreen);},
+                child: CustomImageView(
+                imagePath: ImageConstant.imgFrame1,
+                height: 64.v,
+                width: 156.h,
+                radius: BorderRadius.circular(
+                  12.h,
                 ),
               ),
-            ),
+              ), 
           ],
         ),
       ),

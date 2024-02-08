@@ -52,11 +52,17 @@ class AwardsPageScreen extends StatelessWidget {
                       height: 5.v,
                       width: 17.h),
                   SizedBox(height: 5.v),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgFrame1,
-                      height: 64.v,
-                      width: 156.h,
-                      radius: BorderRadius.circular(12.h))
+                   GestureDetector(
+                onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                child: CustomImageView(
+                imagePath: ImageConstant.imgFrame1,
+                height: 64.v,
+                width: 156.h,
+                radius: BorderRadius.circular(
+                  12.h,
+                ),
+              ),
+              ), 
                 ]))));
   }
 
@@ -76,7 +82,8 @@ class AwardsPageScreen extends StatelessWidget {
                     onTapBtnArrowLeft(context);
                   },
                   child: CustomImageView(
-                      imagePath: ImageConstant.imgArrowLeftOnerrorcontainer))),
+                      imagePath: ImageConstant.imgArrowLeftOnerrorcontainer,
+                      color: Colors.white,))),
           Spacer(flex: 60),
           Padding(
               padding: EdgeInsets.only(top: 28.v),

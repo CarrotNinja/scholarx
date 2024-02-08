@@ -45,11 +45,17 @@ class AcademicAchievementsPageScreen extends StatelessWidget {
                           imagePath: ImageConstant.imgArrowDown,
                           height: 5.v,
                           width: 17.h),
-                      CustomImageView(
-                          imagePath: ImageConstant.imgFrame1,
-                          height: 64.v,
-                          width: 156.h,
-                          radius: BorderRadius.circular(12.h))
+                       GestureDetector(
+                onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                child: CustomImageView(
+                imagePath: ImageConstant.imgFrame1,
+                height: 64.v,
+                width: 156.h,
+                radius: BorderRadius.circular(
+                  12.h,
+                ),
+              ),
+              ), 
                     ]))));
   }
 

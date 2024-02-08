@@ -32,6 +32,7 @@ class AppbarLeadingIconbutton extends StatelessWidget {
           width: 39.adaptSize,
           child: CustomImageView(
             imagePath: ImageConstant.imgArrowLeftOnerrorcontainer,
+            color: Colors.white,
           ),
         ),
       ),

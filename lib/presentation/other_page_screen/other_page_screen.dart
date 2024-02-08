@@ -60,11 +60,17 @@ class OtherPageScreen extends StatelessWidget {
                       height: 5.v,
                       width: 17.h),
                   SizedBox(height: 6.v),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgFrame1,
-                      height: 64.v,
-                      width: 156.h,
-                      radius: BorderRadius.circular(12.h))
+                   GestureDetector(
+                onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                child: CustomImageView(
+                imagePath: ImageConstant.imgFrame1,
+                height: 64.v,
+                width: 156.h,
+                radius: BorderRadius.circular(
+                  12.h,
+                ),
+              ),
+              ), 
                 ]))));
   }
 
@@ -87,7 +93,8 @@ class OtherPageScreen extends StatelessWidget {
                       },
                       child: CustomImageView(
                           imagePath:
-                              ImageConstant.imgArrowLeftOnerrorcontainer))),
+                              ImageConstant.imgArrowLeftOnerrorcontainer,
+                              color: Colors.white,))),
               Spacer(flex: 53),
               Padding(
                   padding: EdgeInsets.only(top: 28.v),
