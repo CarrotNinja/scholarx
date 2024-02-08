@@ -4,10 +4,7 @@ import 'package:scholarx/presentation/sign_up_page/sign_up_page.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
 
 class JumpstartPageScreen extends StatelessWidget {
-  const JumpstartPageScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const JumpstartPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +101,7 @@ class JumpstartPageScreen extends StatelessWidget {
       ),
       buttonStyle: CustomButtonStyles.fillOnError,
       buttonTextStyle: CustomTextStyles.titleMediumPoppins,
-      onPressed: (){Navigator.pushNamed(context, AppRoutes.signUpPageTabContainerScreen);},
+      onPressed: (){Navigator.pushNamed(context, AppRoutes.authPage);},
     );
   }
 }

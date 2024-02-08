@@ -1,12 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
 
 class HomePageScreen extends StatelessWidget {
-  const HomePageScreen({Key? key})
-      : super(
-          key: key,
-        );
+  final user = FirebaseAuth.instance.currentUser!;
+  HomePageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,7 @@ class HomePageScreen extends StatelessWidget {
           ),
           SizedBox(height: 10.v),
           Text(
-            "User Name",
+            user.email!,
             style: CustomTextStyles.bodyMediumRobotoOnErrorContainer,
           ),
           SizedBox(height: 9.v),
@@ -101,6 +100,7 @@ class HomePageScreen extends StatelessWidget {
             text: "Click Me!",
             margin: EdgeInsets.only(right: 9.h),
             buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            onPressed:()async{FirebaseAuth.instance.signOut();} 
           ),
           SizedBox(height: 7.v),
         ],

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
@@ -6,7 +7,8 @@ import 'package:scholarx/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key})
+  final isRegister;
+  const SignUpPage({Key? key, required this.isRegister})
       : super(
           key: key,
         );
@@ -17,6 +19,11 @@ class SignUpPage extends StatefulWidget {
 
 class SignUpPageState extends State<SignUpPage>
     with AutomaticKeepAliveClientMixin<SignUpPage> {
+
+  void signUserIn() async{
+    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+  }
+  
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
@@ -211,6 +218,7 @@ class SignUpPageState extends State<SignUpPage>
             text: "Sign up",
             buttonStyle: CustomButtonStyles.fillBlack,
             alignment: Alignment.center,
+            onPressed: signUserIn,
           ),
         ],
       ),

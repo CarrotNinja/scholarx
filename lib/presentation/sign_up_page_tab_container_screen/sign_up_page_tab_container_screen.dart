@@ -4,7 +4,7 @@ import 'package:scholarx/presentation/sign_up_page/sign_up_page.dart';
 import 'package:scholarx/widgets/custom_icon_button.dart';
 
 class SignUpPageTabContainerScreen extends StatefulWidget {
-  const SignUpPageTabContainerScreen({Key? key}) : super(key: key);
+  const SignUpPageTabContainerScreen({super.key});
 
   @override
   SignUpPageTabContainerScreenState createState() =>
@@ -55,7 +55,7 @@ class SignUpPageTabContainerScreenState
                         height: 494.v,
                         child: TabBarView(
                             controller: tabviewController,
-                            children: [SignUpPage(), SignUpPage()]))
+                            children: [SignUpPage(isRegister: true,), SignUpPage(isRegister: false,)]))
                   ])),
             )));
   }
