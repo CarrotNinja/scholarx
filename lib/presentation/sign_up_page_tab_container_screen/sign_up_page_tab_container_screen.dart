@@ -32,7 +32,7 @@ class SignUpPageTabContainerScreenState
                   width: double.maxFinite,
                   child: Column(children: [
                     SizedBox(height: 30.v),
-                    _buildThirtyRow(context),
+                    SizedBox(height: 50),
                     SizedBox(height: 15.v),
                     Align(
                         alignment: Alignment.centerLeft,

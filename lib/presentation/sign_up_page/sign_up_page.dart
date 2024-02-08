@@ -7,12 +7,10 @@ import 'package:scholarx/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
 class SignUpPage extends StatefulWidget {
-  final isRegister;
-  const SignUpPage({Key? key, required this.isRegister})
-      : super(
-          key: key,
-        );
-
+  final bool isRegister;
+  
+  SignUpPage({super.key, required this.isRegister});
+  
   @override
   SignUpPageState createState() => SignUpPageState();
 }
@@ -21,7 +19,53 @@ class SignUpPageState extends State<SignUpPage>
     with AutomaticKeepAliveClientMixin<SignUpPage> {
 
   void signUserIn() async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    if(!widget.isRegister){
+      try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pop(context);
+      Navigator.pushNamed(context, AppRoutes.homePageScreen);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showErrorMessage(e.code);
+    }
+    }else{
+      try {
+      
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      
+      Navigator.pop(context);
+      Navigator.pushNamed(context, AppRoutes.homePageScreen);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showErrorMessage(e.code);
+    }
+    }
+    
+    
+  }
+  void showErrorMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return  AlertDialog(
+            title: Text(message,
+              style: TextStyle(color: Colors.black),
+            ),
+          );
+        });
   }
   
   TextEditingController emailController = TextEditingController();
@@ -29,6 +73,7 @@ class SignUpPageState extends State<SignUpPage>
   TextEditingController passwordController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   bool get wantKeepAlive => true;
@@ -215,7 +260,7 @@ class SignUpPageState extends State<SignUpPage>
           CustomElevatedButton(
             height: 56.v,
             width: 353.h,
-            text: "Sign up",
+            text: widget.isRegister ? "Sign up" : "Log in",
             buttonStyle: CustomButtonStyles.fillBlack,
             alignment: Alignment.center,
             onPressed: signUserIn,

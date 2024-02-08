@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:scholarx/firebase_options.dart';
 import 'package:scholarx/presentation/sign_up_page/auth_page.dart';
 import 'core/app_export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
@@ -15,6 +16,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  
 
   ///Please update theme as per your need if required.
   ThemeHelper().changeTheme('primary');
@@ -25,7 +27,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
