@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'scholarx',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.authPage,
+          initialRoute: AppRoutes.jumpstartPageScreen,
           routes: AppRoutes.routes,
         );
       },
