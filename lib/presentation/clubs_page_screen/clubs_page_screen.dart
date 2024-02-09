@@ -3,119 +3,259 @@ import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/app_bar/appbar_leading_iconbutton.dart';
 import 'package:scholarx/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:scholarx/widgets/app_bar/custom_app_bar.dart';
+import 'package:scholarx/widgets/custom_text_form_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scholarx/widgets/custom_elevated_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ClubsPageScreen extends StatelessWidget {
-  const ClubsPageScreen({Key? key}) : super(key: key);
+class ClubsPageScreen extends StatefulWidget {
+  ClubsPageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ClubsPageScreen> createState() => _ClubsPageScreenState();
+}
+
+class _ClubsPageScreenState extends State<ClubsPageScreen>  {
+  List<TextEditingController> _fieldController = List.generate(8, (i) => TextEditingController());
+  final user = FirebaseAuth.instance.currentUser!;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkValues();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: SizedBox(
+            appBar: _buildAppBar(context),
+            body: Container(
                 width: double.maxFinite,
-                child: Column(children: [
-                  SizedBox(height: 14.v),
-                  _buildFortyTwo(context),
-                  Expanded(
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 3.v),
-                          child: Column(children: [
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: SizedBox(
-                                    width: 308.h,
-                                    child: Divider(indent: 72.h))),
-                            SizedBox(height: 47.v),
-                            SizedBox(
-                                width: 285.h,
+                padding: EdgeInsets.symmetric(vertical: 12.v),
+                child: SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("ACADEMIC ACHIEVEMENTS",
+                            style: theme.textTheme.headlineSmall),
+                        SizedBox(height: 17.v),
+                        SizedBox(width: 236.h, child: Divider()),
+                        SizedBox(height: 43.v),
+                        _buildThirtyEight(context),
+                        SizedBox(height: 10.v),
+                        _buildSaveButton(context),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 68.h),
                                 child: RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
-                                          text: "List the ",
-                                          style: CustomTextStyles
-                                              .titleMediumHanumanffffffff),
+                                          text: "Questions? ",
+                                          style: theme.textTheme.bodyLarge),
                                       TextSpan(
-                                          text:
-                                              "CLUBS you are involved in below:",
+                                          text: "Go to our FAQ’s Page",
                                           style: CustomTextStyles
-                                              .titleMediumHanumanff61ff17)
+                                              .titleMediumffffffff)
                                     ]),
-                                    textAlign: TextAlign.center)),
-                            SizedBox(height: 9.v),
-                            CustomImageView(
-                                imagePath: ImageConstant
-                                    .imgImageRemovebgPreview2297x411,
-                                height: 297.v,
-                                width: 411.h),
-                            Spacer(),
-                            RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "Questions? ",
-                                      style: theme.textTheme.bodyLarge),
-                                  TextSpan(
-                                      text: "Go to our FAQ’s Page",
-                                      style:
-                                          CustomTextStyles.titleMediumffffffff)
-                                ]),
-                                textAlign: TextAlign.left),
-                            SizedBox(height: 11.v),
-                            CustomImageView(
-                                imagePath: ImageConstant.imgArrowDown,
-                                height: 5.v,
-                                width: 17.h),
-                            SizedBox(height: 6.v),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, AppRoutes.homePageScreen);
-                              },
-                              child: CustomImageView(
-                                imagePath: ImageConstant.imgFrame1,
-                                height: 64.v,
-                                width: 156.h,
-                                radius: BorderRadius.circular(
-                                  12.h,
-                                ),
+                                    textAlign: TextAlign.left))),
+                        SizedBox(height: 10.v),
+                        CustomImageView(
+                            imagePath: ImageConstant.imgArrowDown,
+                            height: 5.v,
+                            width: 17.h),
+                         GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                  child: CustomImageView(
+                  imagePath: ImageConstant.imgFrame1,
+                  height: 64.v,
+                  width: 156.h,
+                  radius: BorderRadius.circular(
+                    12.h,
+                  ),
                               ),
-                            ),
-                            SizedBox(height: 10.v)
-                          ])))
-                ]))));
+                              ), 
+                      ]),
+                ))));
   }
 
   /// Section Widget
-  Widget _buildFortyTwo(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+        height: 60.v,
+        leadingWidth: 51.h,
+        leading: AppbarLeadingIconbutton(
+            imagePath: ImageConstant.imgArrowLeftOnerrorcontainer,
+            margin: EdgeInsets.only(left: 12.h, top: 8.v, bottom: 8.v),
+            onTap: () {
+              onTapArrowLeft(context);
+            }),
+        );
+  }
+
+  void checkValues() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  for (int i = 0; i < 8; i++) {
+    String? academicValue = prefs.getString('clubs$i'+user.email!);
+    if (academicValue != null) {
+      _fieldController[i].text = academicValue;
+    }
+  }
+}
+  /// Section Widget
+  Widget _buildThirtyEight(BuildContext context) {
     return SizedBox(
-        height: 75.v,
-        width: 389.h,
-        child: Stack(alignment: Alignment.topCenter, children: [
+        height: 332.v,
+        width: 403.h,
+        child: Stack( children: [
           Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                  padding: EdgeInsets.only(left: 124.h),
-                  child: Text("CLUBS", style: theme.textTheme.headlineLarge))),
-          CustomAppBar(
-              leadingWidth: 50.h,
-              leading: AppbarLeadingIconbutton(
-                  imagePath: ImageConstant.imgArrowLeftOnerrorcontainer,
-                  margin: EdgeInsets.only(left: 11.h, top: 2.v),
-                  onTap: () {
-                    onTapArrowLeft(context);
-                  }),
-              actions: [
-                AppbarTrailingImage(
-                    imagePath: ImageConstant.imgSend,
-                    margin: EdgeInsets.only(left: 11.h, right: 17.h)),
-                AppbarTrailingImage(
-                    imagePath: ImageConstant.imgPhDotsThreeVerticalBold,
-                    margin: EdgeInsets.only(left: 20.h, right: 28.h))
-              ])
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                  width: 247.h,
+                  child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "List ALL of your ",
+                            style: CustomTextStyles.titleMediumHanumanffffffff),
+                        TextSpan(
+                            text: "Clubs below:",
+                            style: CustomTextStyles.titleMediumHanumanffcebdff)
+                      ]),
+                      textAlign: TextAlign.center))),
+          CustomImageView(
+              imagePath: ImageConstant.imgImageRemovebgPreview2297x403,
+              height: 297.v,
+              width: 403.h,
+              alignment: Alignment.bottomCenter),
+          
+          CustomTextFormField(
+            alignment: Alignment(-0.6,-0.51),
+            width: 130,
+            controller: _fieldController[0],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,-0.51),
+            width: 130,
+            controller: _fieldController[1],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,-0.1),
+            width: 130,
+            controller: _fieldController[2],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,-0.1),
+            width: 130,
+            controller: _fieldController[3],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,0.3),
+            width: 130,
+            controller: _fieldController[4],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,0.3),
+            width: 130,
+            controller: _fieldController[5],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,0.71),
+            width: 130,
+            controller: _fieldController[6],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,0.71),
+            width: 130,
+            controller: _fieldController[7],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          
+          
         ]));
   }
 
   /// Navigates back to the previous screen.
   onTapArrowLeft(BuildContext context) {
     Navigator.pop(context);
+  }
+  Widget _buildSaveButton(BuildContext context) {
+    return Container(
+      width: 387.h,
+      margin: EdgeInsets.only(left: 6.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 113.h,
+        vertical: 15.v,
+      ),
+      
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 7.v),
+          
+          SizedBox(height: 10.v),
+          CustomElevatedButton(
+            height: 24.v,
+            text: "Click Me To Save",
+            margin: EdgeInsets.only(right: 17.h),
+            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              for(int i=0;i<8;i++){
+                prefs.setString('clubs$i'+user.email!, _fieldController[i].text);
+              }
+            }
+          ),
+        ],
+      ),
+    );
   }
 }

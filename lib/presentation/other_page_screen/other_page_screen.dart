@@ -1,120 +1,261 @@
 import 'package:flutter/material.dart';
 import 'package:scholarx/core/app_export.dart';
-import 'package:scholarx/widgets/custom_icon_button.dart';
+import 'package:scholarx/widgets/app_bar/appbar_leading_iconbutton.dart';
+import 'package:scholarx/widgets/app_bar/appbar_trailing_image.dart';
+import 'package:scholarx/widgets/app_bar/custom_app_bar.dart';
+import 'package:scholarx/widgets/custom_text_form_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scholarx/widgets/custom_elevated_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class OtherPageScreen extends StatelessWidget {
-  const OtherPageScreen({Key? key}) : super(key: key);
+class OtherPageScreen extends StatefulWidget {
+  OtherPageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OtherPageScreen> createState() => _OtherPageScreenState();
+}
+
+class _OtherPageScreenState extends State<OtherPageScreen>  {
+  List<TextEditingController> _fieldController = List.generate(8, (i) => TextEditingController());
+  final user = FirebaseAuth.instance.currentUser!;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkValues();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            appBar: _buildAppBar(context),
             body: Container(
                 width: double.maxFinite,
-                padding: EdgeInsets.symmetric(vertical: 14.v),
-                child: Column(children: [
-                  _buildArrowLeftSpacerOtherSendImage(context),
-                  SizedBox(height: 3.v),
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child:
-                          SizedBox(width: 308.h, child: Divider(indent: 72.h))),
-                  SizedBox(height: 34.v),
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                          width: 261.h,
-                          margin: EdgeInsets.only(left: 67.h),
-                          child: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "List ",
-                                    style: CustomTextStyles
-                                        .titleMediumHanumanffffffff),
-                                TextSpan(
-                                    text:
-                                        "ANYTHING ELSE you are involved in below:",
-                                    style: CustomTextStyles
-                                        .titleMediumHanumanffdb00ff)
-                              ]),
-                              textAlign: TextAlign.center))),
-                  SizedBox(height: 22.v),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgImageRemovebgPreview21,
-                      height: 297.v,
-                      width: 411.h),
-                  SizedBox(height: 99.v),
-                  RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: "Questions? ",
-                            style: theme.textTheme.bodyLarge),
-                        TextSpan(
-                            text: "Go to our FAQ’s Page",
-                            style: CustomTextStyles.titleMediumffffffff)
+                padding: EdgeInsets.symmetric(vertical: 12.v),
+                child: SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("OTHERS",
+                            style: theme.textTheme.headlineSmall),
+                        SizedBox(height: 17.v),
+                        SizedBox(width: 236.h, child: Divider()),
+                        SizedBox(height: 43.v),
+                        _buildThirtyEight(context),
+                        SizedBox(height: 10.v),
+                        _buildSaveButton(context),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 68.h),
+                                child: RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          text: "Questions? ",
+                                          style: theme.textTheme.bodyLarge),
+                                      TextSpan(
+                                          text: "Go to our FAQ’s Page",
+                                          style: CustomTextStyles
+                                              .titleMediumffffffff)
+                                    ]),
+                                    textAlign: TextAlign.left))),
+                        SizedBox(height: 10.v),
+                        CustomImageView(
+                            imagePath: ImageConstant.imgArrowDown,
+                            height: 5.v,
+                            width: 17.h),
+                         GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
+                  child: CustomImageView(
+                  imagePath: ImageConstant.imgFrame1,
+                  height: 64.v,
+                  width: 156.h,
+                  radius: BorderRadius.circular(
+                    12.h,
+                  ),
+                              ),
+                              ), 
                       ]),
-                      textAlign: TextAlign.left),
-                  SizedBox(height: 10.v),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgArrowDown,
-                      height: 5.v,
-                      width: 17.h),
-                  SizedBox(height: 6.v),
-                   GestureDetector(
-                onTap: (){Navigator.pushNamed(context, AppRoutes.homePageScreen);},
-                child: CustomImageView(
-                imagePath: ImageConstant.imgFrame1,
-                height: 64.v,
-                width: 156.h,
-                radius: BorderRadius.circular(
-                  12.h,
-                ),
-              ),
-              ), 
-                ]))));
+                ))));
   }
 
   /// Section Widget
-  Widget _buildArrowLeftSpacerOtherSendImage(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 11.h),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(bottom: 34.v),
-                  child: CustomIconButton(
-                      height: 39.adaptSize,
-                      width: 39.adaptSize,
-                      padding: EdgeInsets.all(12.h),
-                      onTap: () {
-                        onTapBtnArrowLeft(context);
-                      },
-                      child: CustomImageView(
-                          imagePath:
-                              ImageConstant.imgArrowLeftOnerrorcontainer,
-                              color: Colors.white,))),
-              Spacer(flex: 53),
-              Padding(
-                  padding: EdgeInsets.only(top: 28.v),
-                  child: Text("OTHER", style: theme.textTheme.headlineLarge)),
-              Spacer(flex: 46),
-              CustomImageView(
-                  imagePath: ImageConstant.imgSend,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  margin: EdgeInsets.only(bottom: 51.v)),
-              CustomImageView(
-                  imagePath: ImageConstant.imgPhDotsThreeVerticalBold,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  margin: EdgeInsets.only(left: 20.h, bottom: 51.v))
-            ]));
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+        height: 60.v,
+        leadingWidth: 51.h,
+        leading: AppbarLeadingIconbutton(
+            imagePath: ImageConstant.imgArrowLeftOnerrorcontainer,
+            margin: EdgeInsets.only(left: 12.h, top: 8.v, bottom: 8.v),
+            onTap: () {
+              onTapArrowLeft(context);
+            }),
+        );
+  }
+
+  void checkValues() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  for (int i = 0; i < 8; i++) {
+    String? academicValue = prefs.getString('others$i'+user.email!);
+    if (academicValue != null) {
+      _fieldController[i].text = academicValue;
+    }
+  }
+}
+  /// Section Widget
+  Widget _buildThirtyEight(BuildContext context) {
+    return SizedBox(
+        height: 332.v,
+        width: 403.h,
+        child: Stack( children: [
+          Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                  width: 247.h,
+                  child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "List ALL of your ",
+                            style: CustomTextStyles.titleMediumHanumanffffffff),
+                        TextSpan(
+                            text: "Miscellaneous details below:",
+                            style: CustomTextStyles.titleMediumHanumanffcebdff)
+                      ]),
+                      textAlign: TextAlign.center))),
+          CustomImageView(
+              imagePath: ImageConstant.imgImageRemovebgPreview2297x403,
+              height: 297.v,
+              width: 403.h,
+              alignment: Alignment.bottomCenter),
+          
+          CustomTextFormField(
+            alignment: Alignment(-0.6,-0.51),
+            width: 130,
+            controller: _fieldController[0],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,-0.51),
+            width: 130,
+            controller: _fieldController[1],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,-0.1),
+            width: 130,
+            controller: _fieldController[2],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,-0.1),
+            width: 130,
+            controller: _fieldController[3],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,0.3),
+            width: 130,
+            controller: _fieldController[4],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,0.3),
+            width: 130,
+            controller: _fieldController[5],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(-0.6,0.71),
+            width: 130,
+            controller: _fieldController[6],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          CustomTextFormField(
+            alignment: Alignment(0.96,0.71),
+            width: 130,
+            controller: _fieldController[7],
+            contentPadding: EdgeInsets.all(13),
+            borderDecoration: InputBorder.none,
+            textInputType: TextInputType.text,
+            textStyle: TextStyle(color: Colors.white),
+            fillColor: Colors.transparent,
+            
+          ),
+          
+          
+        ]));
   }
 
   /// Navigates back to the previous screen.
-  onTapBtnArrowLeft(BuildContext context) {
+  onTapArrowLeft(BuildContext context) {
     Navigator.pop(context);
+  }
+  Widget _buildSaveButton(BuildContext context) {
+    return Container(
+      width: 387.h,
+      margin: EdgeInsets.only(left: 6.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 113.h,
+        vertical: 15.v,
+      ),
+      
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 7.v),
+          
+          SizedBox(height: 10.v),
+          CustomElevatedButton(
+            height: 24.v,
+            text: "Click Me To Save",
+            margin: EdgeInsets.only(right: 17.h),
+            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              for(int i=0;i<8;i++){
+                prefs.setString('others$i'+user.email!, _fieldController[i].text);
+              }
+            }
+          ),
+        ],
+      ),
+    );
   }
 }

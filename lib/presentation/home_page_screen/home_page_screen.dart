@@ -1,35 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
+import 'package:path/path.dart';
 
-class HomePageScreen extends StatelessWidget {
+
+class HomePageScreen extends StatefulWidget {
   HomePageScreen({super.key});
+
+  @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
   final user = FirebaseAuth.instance.currentUser!;
+  PlatformFile? pickedFile;
+  File? image;
+  Future pickImage() async {
+    try{
+      final image =await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(image==null) return;
+    final imageTemporary = File(image.path);
+    setState(() => this.image = imageTemporary);
+    }on PlatformException catch (e){
+      print('Failed to pick image: $e');
+    }
+    
+    
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: 413.h,
-          padding: EdgeInsets.symmetric(horizontal: 10.h),
-          child: Column(
-            children: [
-              _buildHomeSection(context),
-              SizedBox(height: 4.v),
-              _buildGenerateYourResumeSection(context),
-              SizedBox(height: 10.v),
-              _buildAssignmentsSection(context),
-              SizedBox(height: 8.v),
-              _buildAccountSettingsSection(context),
-              SizedBox(height: 8.v),
-              _buildFaqsSection(context),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            width: 413.h,
+            padding: EdgeInsets.symmetric(horizontal: 10.h),
+            child: Column(
+              children: [
+                _buildHomeSection(context),
+                SizedBox(height: 4.v),
+                _buildGenerateYourResumeSection(context),
+                SizedBox(height: 10.v),
+                _buildAssignmentsSection(context),
+                SizedBox(height: 8.v),
+                _buildAccountSettingsSection(context),
+                SizedBox(height: 8.v),
+                _buildFaqsSection(context),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: _buildBottomBarSection(context),
       ),
     );
+  }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+    setState(() {
+      pickedFile = result.files.first;
+    });
   }
 
   /// Section Widget
@@ -59,25 +100,38 @@ class HomePageScreen extends StatelessWidget {
                   style: CustomTextStyles.bodyMediumRobotoOnErrorContainer15,
                 ),
               ),
-              CustomImageView(
-                imagePath: ImageConstant.imgEllipse1,
-                height: 60.v,
-                width: 56.h,
-                radius: BorderRadius.circular(
-                  30.h,
+                image!=null ?
+                Padding(
+                  padding: EdgeInsets.only(left:92.h, top:16.v),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30.h),
+                    child: Image.file(image!, height: 60.v,width: 56.h,)
+                  ),
+                  )
+                /*Image.file(image!,
+                
+                )*/
+                : CustomImageView(
+                  imagePath: ImageConstant.imgEllipse1,
+                  height: 60.v,
+                  width: 56.h,
+                  radius: BorderRadius.circular(
+                    30.h,
+                  ),
+                  margin: EdgeInsets.only(
+                    left: 92.h,
+                    top: 16.v,
+                  ),
                 ),
-                margin: EdgeInsets.only(
-                  left: 92.h,
-                  top: 16.v,
-                ),
-              ),
+                
+              
             ],
           ),
           SizedBox(height: 9.v),
           Align(
             alignment: Alignment.center,
             child: Text(
-                user.email!,
+              user.email!,
               style: CustomTextStyles.bodyMediumRobotoOnErrorContainer,
             ),
           ),
@@ -105,17 +159,16 @@ class HomePageScreen extends StatelessWidget {
         children: [
           SizedBox(height: 7.v),
           Text(
-            "Generate Your Resume",
+            "Change your picture",
             style: CustomTextStyles.bodyMediumRobotoIndigoA700,
           ),
           SizedBox(height: 10.v),
           CustomElevatedButton(
-            height: 24.v,
-            text: "Click Me!",
-            margin: EdgeInsets.only(right: 17.h),
-            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
-            onPressed: () async{FirebaseAuth.instance.signOut();}
-          ),
+              height: 24.v,
+              text: "Click Me!",
+              margin: EdgeInsets.only(right: 17.h),
+              buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+              onPressed:()=>pickImage()),
         ],
       ),
     );
@@ -137,22 +190,46 @@ class HomePageScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 10.v),
-          CustomImageView(
-            imagePath: ImageConstant.imgFluentClock28Regular,
-            height: 34.adaptSize,
-            width: 34.adaptSize,
-          ),
+          Icon(Icons.check),
           SizedBox(height: 4.v),
           Text(
-            "Assignments",
+            "Last Semester Grades",
             style: theme.textTheme.bodySmall,
           ),
           SizedBox(height: 5.v),
           CustomImageView(
-            imagePath: ImageConstant.imgImageRemovebgPreview2,
-            height: 184.v,
+            imagePath: ImageConstant.imgImageRemovebgPreview6,
+            height: 138.v,
             width: 290.h,
           ),
+          SizedBox(height: 10),
+          if (pickedFile != null)
+            Text(
+              pickedFile!.name,
+              style: theme.textTheme.bodySmall,
+            ),
+          SizedBox(height: 5),
+          CustomElevatedButton(
+              height: 24.v,
+              width: 150.h,
+              text: "Select File",
+              margin: EdgeInsets.only(right: 17.h),
+              buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+              onPressed: selectFile),
+          SizedBox(height: 12),
+          CustomElevatedButton(
+            height: 24.v,
+            width: 150.h,
+            text: "Upload and Transcribe",
+            margin: EdgeInsets.only(right: 17.h),
+            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          SizedBox(
+            height: 5,
+          )
         ],
       ),
     );
@@ -160,89 +237,36 @@ class HomePageScreen extends StatelessWidget {
 
   Widget _buildAccountSettingsSection(BuildContext context) {
     return GestureDetector(
-      onTap:(){Navigator.pushNamed(context, AppRoutes.settingsPageScreen);} ,
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutes.settingsPageScreen);
+      },
       child: Container(
-      margin: EdgeInsets.only(left: 6.h),
-      padding: EdgeInsets.symmetric(
-        horizontal: 6.h,
-        vertical: 7.v,
-      ),
-      decoration: AppDecoration.outlineBlack900013,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Divider(
-            color: appTheme.gray400,
-          ),
-          SizedBox(height: 2.v),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 13.h,
-              right: 20.h,
+        margin: EdgeInsets.only(left: 6.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 6.h,
+          vertical: 7.v,
+        ),
+        decoration: AppDecoration.outlineBlack900012.copyWith(
+          borderRadius: BorderRadiusStyle.roundedBorder12,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Divider(
+              color: appTheme.gray400,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgClarityHelpLineIndigoA70002,
-                  height: 20.adaptSize,
-                  width: 20.adaptSize,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 14.h,
-                    top: 2.v,
-                  ),
-                  child: Text(
-                    "Account Settings",
-                    style: CustomTextStyles.bodyMediumRobotoBluegray900,
-                  ),
-                ),
-                Spacer(),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 20.adaptSize,
-                  width: 20.adaptSize,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 3.v),
-        ],
-      ),
-    ),
-    );
-  }
-
-  /// Section Widget
-  /*Widget _buildAccountSettingsSection(BuildContext context) {
-    return SizedBox(
-      height: 40.v,
-      width: 387.h,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgArrowDown,
-            height: 5.v,
-            width: 17.h,
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 1.v),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.h,
-                vertical: 10.v,
+            SizedBox(height: 2.v),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 13.h,
+                right: 20.h,
               ),
-              decoration: AppDecoration.outlineBlack900013,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomImageView(
-                    imagePath: ImageConstant.imgAkarIconsPerson,
+                    imagePath: ImageConstant.imgClarityHelpLineIndigoA70002,
                     height: 20.adaptSize,
                     width: 20.adaptSize,
                   ),
@@ -261,76 +285,76 @@ class HomePageScreen extends StatelessWidget {
                     imagePath: ImageConstant.imgArrowRight,
                     height: 20.adaptSize,
                     width: 20.adaptSize,
-                    margin: EdgeInsets.only(right: 4.h),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 3.v),
+          ],
+        ),
       ),
     );
-  }*/
+  }
 
   /// Section Widget
   Widget _buildFaqsSection(BuildContext context) {
     return GestureDetector(
-      onTap: (){Navigator.pushNamed(context,AppRoutes.faqPageScreen);},
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutes.faqPageScreen);
+      },
       child: Container(
-      margin: EdgeInsets.only(left: 6.h),
-      padding: EdgeInsets.symmetric(
-        horizontal: 6.h,
-        vertical: 7.v,
-      ),
-      decoration: AppDecoration.outlineBlack900013,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Divider(
-            color: appTheme.gray400,
-          ),
-          SizedBox(height: 2.v),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 13.h,
-              right: 20.h,
+        margin: EdgeInsets.only(left: 6.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 6.h,
+          vertical: 7.v,
+        ),
+        decoration: AppDecoration.outlineBlack900012.copyWith(
+          borderRadius: BorderRadiusStyle.roundedBorder12,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Divider(
+              color: appTheme.gray400,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgClarityHelpLineIndigoA70002,
-                  height: 20.adaptSize,
-                  width: 20.adaptSize,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 14.h,
-                    top: 2.v,
+            SizedBox(height: 2.v),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 13.h,
+                right: 20.h,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomImageView(
+                    imagePath: ImageConstant.imgClarityHelpLineIndigoA70002,
+                    height: 20.adaptSize,
+                    width: 20.adaptSize,
                   ),
-                  child: Text(
-                    "FAQs",
-                    style: CustomTextStyles.bodyMediumRobotoBluegray900,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 14.h,
+                      top: 2.v,
+                    ),
+                    child: Text(
+                      "FAQs",
+                      style: CustomTextStyles.bodyMediumRobotoBluegray900,
+                    ),
                   ),
-                ),
-                Spacer(),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 20.adaptSize,
-                  width: 20.adaptSize,
-                ),
-              ],
+                  Spacer(),
+                  CustomImageView(
+                    imagePath: ImageConstant.imgArrowRight,
+                    height: 20.adaptSize,
+                    width: 20.adaptSize,
+                  ),
+                ],
+              ),
             ),
-          ),
-          
-        ],
+          ],
+        ),
       ),
-    ),
     );
-    
-    
-    
   }
 
   /// Section Widget
@@ -358,10 +382,11 @@ class HomePageScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
-             GestureDetector(
-                onTap: (){Navigator.pushNamed(context, AppRoutes.profilePageScreen);},
-                child: CustomImageView(
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.profilePageScreen);
+              },
+              child: CustomImageView(
                 imagePath: ImageConstant.imgFrame1,
                 height: 64.v,
                 width: 156.h,
@@ -369,7 +394,7 @@ class HomePageScreen extends StatelessWidget {
                   12.h,
                 ),
               ),
-              ), 
+            ),
           ],
         ),
       ),

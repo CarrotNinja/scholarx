@@ -40,11 +40,15 @@ class ImageConstant {
   // Home Page images
   static String imgEllipse1 = '$imagePath/img_ellipse_1.png';
 
+ 
+
   static String imgFluentClock28Regular =
       '$imagePath/img_fluent_clock_28_regular.svg';
 
   static String imgImageRemovebgPreview2 =
       '$imagePath/img_image_removebg_preview_2.png';
+
+  static String imgImageRemovebgPreview6 = '$imagePath/img_image_removebg_preview_6.png';
 
   static String imgAkarIconsPerson = '$imagePath/img_akar_icons_person.svg';
 
