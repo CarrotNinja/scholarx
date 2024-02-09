@@ -5,13 +5,14 @@ import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
 import 'dart:io';
-import 'dart:convert';
 import 'dart:async';
-import 'package:path/path.dart';
-
-
+import 'package:scholarx/core/utils/api.dart';
+import 'dart:convert';
+import 'package:dartpy/dartpy.dart';
+import 'package:dartpy/dartpy_annotations.dart';
+import 'dart:ffi';
+import 'dart:convert' show utf8;
 class HomePageScreen extends StatefulWidget {
   HomePageScreen({super.key});
 
@@ -23,6 +24,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   PlatformFile? pickedFile;
   File? image;
+  
   Future pickImage() async {
     try{
       final image =await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -32,11 +34,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     }on PlatformException catch (e){
       print('Failed to pick image: $e');
     }
-    
-    
   }
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -108,9 +106,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     child: Image.file(image!, height: 60.v,width: 56.h,)
                   ),
                   )
-                /*Image.file(image!,
-                
-                )*/
                 : CustomImageView(
                   imagePath: ImageConstant.imgEllipse1,
                   height: 60.v,
@@ -223,10 +218,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
             text: "Upload and Transcribe",
             margin: EdgeInsets.only(right: 17.h),
             buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            onPressed: (){
+              
+            },
           ),
           SizedBox(
             height: 12,
           ),
+          
           SizedBox(
             height: 5,
           )

@@ -3,6 +3,10 @@ import 'package:scholarx/core/app_export.dart';
 import 'package:scholarx/widgets/app_bar/appbar_leading_iconbutton.dart';
 import 'package:scholarx/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:scholarx/widgets/app_bar/custom_app_bar.dart';
+import 'package:scholarx/widgets/custom_elevated_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FaqPageScreen extends StatelessWidget {
   const FaqPageScreen({Key? key}) : super(key: key);
@@ -30,8 +34,7 @@ class FaqPageScreen extends StatelessWidget {
                         Container(
                             width: 292.h,
                             margin: EdgeInsets.only(left: 22.h, right: 15.h),
-                            child: Text(
-                                "What is the most popular online shopping store?",
+                            child: Text("What is ScholarX?",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: CustomTextStyles
@@ -41,7 +44,7 @@ class FaqPageScreen extends StatelessWidget {
                             width: 305.h,
                             margin: EdgeInsets.only(left: 18.h, right: 6.h),
                             child: Text(
-                                "Morbi adipiscing gravida dolor dui tincidunt libero. Duis malesuada massa libero nec accumsan nunc gravida.",
+                                "ScholarX is an academic app designed to showcase academic records, extracurricular activities, and personal accomplishments of students.",
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                                 style: CustomTextStyles
@@ -51,7 +54,7 @@ class FaqPageScreen extends StatelessWidget {
                             width: 292.h,
                             margin: EdgeInsets.only(left: 22.h, right: 15.h),
                             child: Text(
-                                "What is the most popular online shopping store?",
+                                "Is my data safe and secure on ScholarX?",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: CustomTextStyles
@@ -63,7 +66,7 @@ class FaqPageScreen extends StatelessWidget {
                                 width: 305.h,
                                 margin: EdgeInsets.only(left: 22.h, right: 2.h),
                                 child: Text(
-                                    "Morbi adipiscing gravida dolor dui tincidunt libero. Duis malesuada massa libero nec accumsan nunc gravida.",
+                                    "Yes, we take data security and privacy seriously. ScholarX uses encryption protocols to protect user data and adheres to strict privacy policies.",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: CustomTextStyles
@@ -73,7 +76,7 @@ class FaqPageScreen extends StatelessWidget {
                             width: 292.h,
                             margin: EdgeInsets.only(left: 22.h, right: 13.h),
                             child: Text(
-                                "What is the most popular online shopping store?",
+                                "Can I share my ScholarX portfolio with others?",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: CustomTextStyles
@@ -85,37 +88,87 @@ class FaqPageScreen extends StatelessWidget {
                                 width: 305.h,
                                 margin: EdgeInsets.only(left: 22.h),
                                 child: Text(
-                                    "Morbi adipiscing gravida dolor dui tincidunt libero. Duis malesuada massa libero nec accumsan nunc gravida.",
+                                    "Yes you can! Press the button below to send an email",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: CustomTextStyles
                                         .bodyMediumPoppinsOnPrimaryContainer))),
                         SizedBox(height: 6.v),
-                        Container(
-                            width: 292.h,
-                            margin: EdgeInsets.only(left: 19.h, right: 18.h),
-                            child: Text(
-                                "What is the most popular online shopping store?",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: CustomTextStyles
-                                    .bodyMediumPoppinsWhiteA700)),
-                        SizedBox(height: 8.v),
-                        Container(
-                            width: 305.h,
-                            margin: EdgeInsets.only(left: 15.h, right: 9.h),
-                            child: Text(
-                                "Morbi adipiscing gravida dolor dui tincidunt libero. Duis malesuada massa libero nec accumsan nunc gravida.",
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: CustomTextStyles
-                                    .bodyMediumPoppinsOnPrimaryContainer)),
-                        SizedBox(height: 1.v),
                         CustomImageView(
                             imagePath: ImageConstant.imgArrowDown,
                             height: 5.v,
                             width: 17.h),
-                        SizedBox(height: 6.v),
+                        CustomElevatedButton(
+                          height: 24.v,
+                          text: "Click Me!",
+                          margin: EdgeInsets.only(right: 17.h),
+                          buttonTextStyle:
+                              CustomTextStyles.labelLargeInterOnErrorContainer,
+                          onPressed: () async {
+                            String? encodeQueryParameters(
+                                Map<String, String> params) {
+                              return params.entries
+                                  .map((MapEntry<String, String> e) =>
+                                      '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                  .join('&');
+                            }
+                            String body = "";
+                            final user = FirebaseAuth.instance.currentUser!;
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            body+="Academic Achievements\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('academic$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+temp+"\n";
+                              }
+                            }
+                            body+="\nAwards\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('awards$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nClubs\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('clubs$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nEcs\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('ec$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nOthers\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('others$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            final Uri emailUri = Uri(
+                                scheme: 'mailto',
+                                path: 'myfriend@gmail.com',
+                                query: encodeQueryParameters(<String,String>{
+                                  'subject' : 'Check out my stats recorded on ScholarX!',
+                                  'body': body,
+                                })
+                                 );
+
+                            try{
+                              await launchUrl(emailUri);
+                            }catch (e){
+                              print(e.toString());
+                            }
+                            
+                                                              
+                          },
+                        ),
+                        SizedBox(height: 180.v),
                         CustomImageView(
                             imagePath: ImageConstant.imgFrame1,
                             height: 64.v,

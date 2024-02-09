@@ -30,28 +30,18 @@ class SettingsPageScreen extends StatelessWidget {
                           child: Text("Account Settings",
                               style: theme.textTheme.headlineLarge)),
                       SizedBox(height: 1.v),
-                      SizedBox(width: 283.h, child: Divider(indent: 47.h)),
+                      
                       SizedBox(height: 27.v),
-                      Padding(
-                          padding: EdgeInsets.only(left: 8.h),
-                          child: Text("Account",
-                              style: theme.textTheme.titleMedium)),
-                      SizedBox(height: 7.v),
-                      _buildAccountSettings(context),
-                      Spacer(),
+                    
+                      
                       GestureDetector(
                         onTap: () async{FirebaseAuth.instance.signOut();
                         Navigator.pushNamed(context,AppRoutes.signUpPageTabContainerScreen);},
                         child: _buildStackFrame(context),
                       ),
                       
-                      SizedBox(height: 96.v),
-                      CustomImageView(
-                          imagePath: ImageConstant.imgArrowDown,
-                          height: 5.v,
-                          width: 17.h,
-                          alignment: Alignment.center),
-                      SizedBox(height: 6.v),
+                      SizedBox(height: 400.v),
+                      
                       CustomImageView(
                           imagePath: ImageConstant.imgFrame1,
                           height: 64.v,
@@ -84,88 +74,7 @@ class SettingsPageScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildAccountSettings(BuildContext context) {
-    return Container(
-        width: 342.h,
-        margin: EdgeInsets.only(right: 15.h),
-        padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 11.v),
-        decoration: AppDecoration.outlineBlack900012
-            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder6),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(children: [
-                Container(
-                    height: 31.v,
-                    width: 30.h,
-                    padding: EdgeInsets.all(4.h),
-                    decoration: AppDecoration.outlineBlack900013,
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgLock,
-                        height: 21.v,
-                        width: 20.h,
-                        alignment: Alignment.center)),
-                Padding(
-                    padding: EdgeInsets.only(left: 36.h, top: 7.v, bottom: 4.v),
-                    child: Text("Edit profile",
-                        style: theme.textTheme.titleMedium))
-              ]),
-              SizedBox(height: 9.v),
-              Row(children: [
-                Container(
-                    height: 31.v,
-                    width: 30.h,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.h, vertical: 1.v),
-                    decoration: AppDecoration.outlineBlack900013,
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgHome,
-                        height: 26.v,
-                        width: 20.h,
-                        alignment: Alignment.center)),
-                Padding(
-                    padding: EdgeInsets.only(left: 36.h, top: 7.v, bottom: 4.v),
-                    child: Text("Security", style: theme.textTheme.titleMedium))
-              ]),
-              SizedBox(height: 9.v),
-              Row(children: [
-                Container(
-                    height: 31.v,
-                    width: 30.h,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.h, vertical: 1.v),
-                    decoration: AppDecoration.outlineBlack900013,
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgGroup,
-                        height: 26.v,
-                        width: 20.h,
-                        alignment: Alignment.center)),
-                Padding(
-                    padding: EdgeInsets.only(left: 36.h, top: 5.v, bottom: 6.v),
-                    child: Text("Notifications",
-                        style: theme.textTheme.titleMedium))
-              ]),
-              SizedBox(height: 9.v),
-              Row(children: [
-                Container(
-                    height: 31.v,
-                    width: 30.h,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.h, vertical: 1.v),
-                    decoration: AppDecoration.outlineBlack900013,
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgLocation,
-                        height: 27.v,
-                        width: 20.h,
-                        alignment: Alignment.topCenter)),
-                Padding(
-                    padding: EdgeInsets.only(left: 36.h, top: 6.v, bottom: 4.v),
-                    child: Text("Privacy", style: theme.textTheme.titleMedium))
-              ])
-            ]));
-  }
+  
 
   /// Section Widget
   Widget _buildStackFrame(BuildContext context) {

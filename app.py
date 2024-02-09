@@ -3,8 +3,6 @@ from azure.core.credentials import AzureKeyCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
 
 
-
-
 endpoint = "https://myaiserver01.cognitiveservices.azure.com/"
 key = "427cc4797d5641b59758bac4a1906897"
 
