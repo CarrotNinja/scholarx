@@ -13,6 +13,7 @@ import 'package:dartpy/dartpy.dart';
 import 'package:dartpy/dartpy_annotations.dart';
 import 'dart:ffi';
 import 'dart:convert' show utf8;
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 class HomePageScreen extends StatefulWidget {
   HomePageScreen({super.key});
 
@@ -22,7 +23,7 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   final user = FirebaseAuth.instance.currentUser!; //Instance of our database user
-  PlatformFile? pickedFile; // Instance variable for selected PDF file
+  //PlatformFile? pickedFile; // Instance variable for selected PDF file
   File? image;// Profile picture image
   
   Future pickImage() async { // Future + async demonstraits theres an await command, indicating the method takes time
@@ -63,13 +64,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
     );
   }
 
-  Future selectFile() async {
+  /*Future selectFile() async {
     final result = await FilePicker.platform.pickFiles();
     if (result == null) return;
     setState(() {
       pickedFile = result.files.first;
     });
-  }
+  }*/
+
+
 
   /// Section Widget
   Widget _buildHomeSection(BuildContext context) {
@@ -199,13 +202,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
             width: 290.h,
           ),
           SizedBox(height: 10),
-          if (pickedFile != null)
+          /*if (pickedFile != null)
             Text(
               pickedFile!.name,
               style: theme.textTheme.bodySmall,
-            ),
+            ),*/
           SizedBox(height: 5),
-          CustomElevatedButton(
+          /*CustomElevatedButton(
               height: 24.v,
               width: 150.h,
               text: "Select File",
@@ -225,7 +228,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
           ),
           SizedBox(
             height: 12,
-          ),
+          ),*/
+          Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CustomElevatedButton(
+            height: 24.v,
+            width: 150.h,
+            text:'Generate PDF',
+            margin: EdgeInsets.only(right: 17.h),
+            onPressed: _extractText,
+            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+          )
+        ],
+      ),
           
           SizedBox(
             height: 5,
@@ -400,4 +416,105 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
     );
   }
+
+  Future<void> _extractText() async {
+    //Load an existing PDF document.
+    PdfDocument document =PdfDocument(inputBytes: await _readDocumentData('ReportCard_RP1_203431826_Sherwani.pdf'));
+ 
+    //Create a new instance of the PdfTextExtractor.
+    PdfTextExtractor extractor = PdfTextExtractor(document);
+    List<TextLine> result = extractor.extractTextLines(startPageIndex: 0);
+
+    Rect textBounds = Rect.fromLTWH(0, 220, 100, 9);
+ 
+    String invoiceNumber = '';
+
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 220, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds); 
+  textBounds = Rect.fromLTWH(0,270,100,9);
+  invoiceNumber+="\n";
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 270, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds); 
+  textBounds = Rect.fromLTWH(0, 320, 100, 9);
+  invoiceNumber+="\n";
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 320, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds); 
+  textBounds = Rect.fromLTWH(0, 380, 100, 9);
+  invoiceNumber+="\n";
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 380, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds); 
+  textBounds = Rect.fromLTWH(0, 450, 100, 9);
+  invoiceNumber+="\n";
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 450, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds);  
+  textBounds = Rect.fromLTWH(0, 500, 100, 9);
+  invoiceNumber+="\n";
+  invoiceNumber+=textFinder(result,textBounds);
+  textBounds = Rect.fromLTWH(500, 220, 60, 9);
+  invoiceNumber+=": ";
+  invoiceNumber+=textFinder(result, textBounds); 
+
+  
+ 
+    //Display the text.
+    _showResult(invoiceNumber);
+  }
+
+String textFinder(List<TextLine> result,Rect textBounds){
+  String ans = "";
+  for (int i = 0; i < result.length; i++) {
+  List<TextWord> wordCollection = result[i].wordCollection;
+  for (int j = 0; j < wordCollection.length; j++) {
+    if (textBounds.overlaps(wordCollection[j].bounds)) {
+      ans += wordCollection[j].text;
+    }
+  }
+  if(ans != ''){
+    break;
+  }
+}
+  return ans;
+}
+Future<List<int>> _readDocumentData(String name) async {
+  final ByteData data = await rootBundle.load('assets/$name');
+  return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+}
+void _showResult(String text) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+    return AlertDialog(
+      title: Text('Extracted text'),
+      content: Scrollbar(
+        child: SingleChildScrollView(
+          child: Text(text, style: TextStyle(color: Colors.black),),
+          physics: BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics()),
+        ),
+      ),
+      actions: [
+        CustomElevatedButton(
+            height: 24.v,
+            width: 150.h,
+            text:'Close',
+            margin: EdgeInsets.only(right: 17.h),
+            onPressed: () {
+            Navigator.of(context).pop();
+          },
+            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+          )
+      ],
+    );
+  });
+}
 }
