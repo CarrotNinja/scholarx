@@ -21,17 +21,17 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  final user = FirebaseAuth.instance.currentUser!;
-  PlatformFile? pickedFile;
-  File? image;
+  final user = FirebaseAuth.instance.currentUser!; //Instance of our database user
+  PlatformFile? pickedFile; // Instance variable for selected PDF file
+  File? image;// Profile picture image
   
-  Future pickImage() async {
+  Future pickImage() async { // Future + async demonstraits theres an await command, indicating the method takes time
     try{
-      final image =await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(image==null) return;
-    final imageTemporary = File(image.path);
-    setState(() => this.image = imageTemporary);
-    }on PlatformException catch (e){
+      final image =await ImagePicker().pickImage(source: ImageSource.gallery);// Prompts the user to take in image from their device photo gallery
+    if(image==null) return;//If nothing was selected
+    final imageTemporary = File(image.path); //Hold the image they chose in a variable as a File object
+    setState(() => this.image = imageTemporary);//Refresh the state of the app to make the profilepicture take effect
+    }on PlatformException catch (e){//Error catcher
       print('Failed to pick image: $e');
     }
   }
@@ -98,15 +98,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   style: CustomTextStyles.bodyMediumRobotoOnErrorContainer15,
                 ),
               ),
-                image!=null ?
-                Padding(
+                image!=null ? //Ternary operator to check if image was chosen
+                Padding(//Display the image the user chose
                   padding: EdgeInsets.only(left:92.h, top:16.v),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30.h),
                     child: Image.file(image!, height: 60.v,width: 56.h,)
                   ),
                   )
-                : CustomImageView(
+                : CustomImageView(//Else place the default one in its spot
                   imagePath: ImageConstant.imgEllipse1,
                   height: 60.v,
                   width: 56.h,
@@ -151,19 +151,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: [ //UI to prompt the user to press the button if they would like to change their pfp
           SizedBox(height: 7.v),
           Text(
             "Change your picture",
-            style: CustomTextStyles.bodyMediumRobotoIndigoA700,
+            style: CustomTextStyles.bodyMediumRobotoIndigoA700,//Style constant held in CustomTextStyles class
           ),
           SizedBox(height: 10.v),
-          CustomElevatedButton(
+          CustomElevatedButton(//Object of CustomElevatedButton class
               height: 24.v,
               text: "Click Me!",
               margin: EdgeInsets.only(right: 17.h),
               buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
-              onPressed:()=>pickImage()),
+              onPressed:()=>pickImage()//Calls the pickImage function on button press
+              ), 
         ],
       ),
     );

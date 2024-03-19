@@ -129,7 +129,7 @@ class _AcademicAchievementsPageScreenState extends State<AcademicAchievementsPag
               width: 403.h,
               alignment: Alignment.bottomCenter),
           
-          CustomTextFormField(
+          CustomTextFormField(//Custom textfields to hold academic achievements
             alignment: Alignment(-0.6,-0.51),
             width: 130,
             controller: _fieldController[0],
@@ -242,7 +242,7 @@ class _AcademicAchievementsPageScreenState extends State<AcademicAchievementsPag
           SizedBox(height: 7.v),
           
           SizedBox(height: 10.v),
-          CustomElevatedButton(
+          CustomElevatedButton(//Saves textform changeds using SharedPreferences imported class
             height: 24.v,
             text: "Click Me To Save",
             margin: EdgeInsets.only(right: 17.h),
