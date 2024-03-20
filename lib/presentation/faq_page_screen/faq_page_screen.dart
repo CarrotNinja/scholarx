@@ -7,6 +7,7 @@ import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:share_plus/share_plus.dart';
 
 class FaqPageScreen extends StatelessWidget {
   const FaqPageScreen({Key? key}) : super(key: key);
@@ -88,7 +89,7 @@ class FaqPageScreen extends StatelessWidget {
                                 width: 305.h,
                                 margin: EdgeInsets.only(left: 22.h),
                                 child: Text(
-                                    "Yes you can! Press the button below to send an email",
+                                    "Yes you can! Press the first button below to send an email, or the second button to share!",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: CustomTextStyles
@@ -99,12 +100,13 @@ class FaqPageScreen extends StatelessWidget {
                             height: 5.v,
                             width: 17.h),
                         CustomElevatedButton(
-                          height: 24.v,
-                          text: "Click Me!",
+                          height: 40.v,
+                          text: "Email",
                           margin: EdgeInsets.only(right: 17.h),
                           buttonTextStyle:
                               CustomTextStyles.labelLargeInterOnErrorContainer,
                           onPressed: () async {
+                            //await Share.share("Hello");
                             String? encodeQueryParameters(
                                 Map<String, String> params) {
                               return params.entries
@@ -173,10 +175,72 @@ class FaqPageScreen extends StatelessWidget {
                               print(e.toString());
                             }
                             
-                                                              
+                                                             
                           },
                         ),
-                        SizedBox(height: 180.v),
+                        SizedBox(height:20),
+
+                        
+                        CustomElevatedButton(
+                          height: 40.v,
+                          text: "Other",
+                          margin: EdgeInsets.only(right: 17.h),
+                          buttonTextStyle:
+                              CustomTextStyles.labelLargeInterOnErrorContainer,
+                          onPressed: () async {
+                            
+
+                            String body = "";
+                            final user = FirebaseAuth.instance.currentUser!;
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            body+="Grades\n";
+                            for (int i = 1; i <= 6; i++) {
+                              String? temp = prefs.getString('class$i'+user.email!);
+                              int? grade = prefs.getInt('grade$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty&&grade!=null) {
+                                body += temp+": "+grade.toString()+"\n";
+                              }
+                            }
+                            body+="\nAcademic Achievements\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('academic$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+temp+"\n";
+                              }
+                            }
+                            body+="\nAwards\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('awards$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nClubs\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('clubs$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nEcs\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('ec$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            body+="\nOthers\n";
+                            for (int i = 0; i < 8; i++) {
+                              String? temp = prefs.getString('others$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty) {
+                                body += (i+1).toString()+". "+ temp+"\n";
+                              }
+                            }
+                            
+                            Share.share(body, subject: "ScholarX");                       
+                          },
+                        ),
+                        SizedBox(height: 90.v),
                         CustomImageView(
                             imagePath: ImageConstant.imgFrame1,
                             height: 64.v,

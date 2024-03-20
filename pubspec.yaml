@@ -21,6 +21,8 @@ dependencies:
   cross_file: ^0.3.3+7
   dartpy: ^0.0.3
   url_launcher: ^6.2.4
+  share_plus: ^7.2.2
+  share: 2.0.4
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
