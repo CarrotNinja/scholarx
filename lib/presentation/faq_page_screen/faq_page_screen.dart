@@ -115,7 +115,15 @@ class FaqPageScreen extends StatelessWidget {
                             String body = "";
                             final user = FirebaseAuth.instance.currentUser!;
                             SharedPreferences prefs = await SharedPreferences.getInstance();
-                            body+="Academic Achievements\n";
+                            body+="Grades\n";
+                            for (int i = 1; i <= 6; i++) {
+                              String? temp = prefs.getString('class$i'+user.email!);
+                              int? grade = prefs.getInt('grade$i'+user.email!);
+                              if (temp != null&&temp.isNotEmpty&&grade!=null) {
+                                body += temp+": "+grade.toString()+"\n";
+                              }
+                            }
+                            body+="\nAcademic Achievements\n";
                             for (int i = 0; i < 8; i++) {
                               String? temp = prefs.getString('academic$i'+user.email!);
                               if (temp != null&&temp.isNotEmpty) {

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scholarx/core/app_export.dart';
@@ -5,15 +7,11 @@ import 'package:scholarx/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:scholarx/core/utils/api.dart';
-import 'dart:convert';
-import 'package:dartpy/dartpy.dart';
-import 'package:dartpy/dartpy_annotations.dart';
-import 'dart:ffi';
-import 'dart:convert' show utf8;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'dart:convert';
 class HomePageScreen extends StatefulWidget {
   HomePageScreen({super.key});
 
@@ -23,8 +21,9 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   final user = FirebaseAuth.instance.currentUser!; //Instance of our database user
-  //PlatformFile? pickedFile; // Instance variable for selected PDF file
+  PlatformFile? pickedFile; // Instance variable for selected PDF file
   File? image;// Profile picture image
+  List<String> classGrades = List.generate(6, (i) => "");
   
   Future pickImage() async { // Future + async demonstraits theres an await command, indicating the method takes time
     try{
@@ -36,6 +35,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
       print('Failed to pick image: $e');
     }
   }
+
+  Future selectFile() async{
+    final result = await FilePicker.platform.pickFiles();
+    if(result==null) return;
+    setState(() {
+      pickedFile = result.files.first;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -172,6 +180,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
     );
   }
+  /// Outlines a text using shadows.
+
 
   /// Section Widget
   Widget _buildAssignmentsSection(BuildContext context) {
@@ -196,11 +206,41 @@ class _HomePageScreenState extends State<HomePageScreen> {
             style: theme.textTheme.bodySmall,
           ),
           SizedBox(height: 5.v),
-          CustomImageView(
+          Stack(children: [
+            Align(alignment: Alignment.topCenter,
+               
+            ),
+            CustomImageView(
             imagePath: ImageConstant.imgImageRemovebgPreview6,
             height: 138.v,
             width: 290.h,
           ),
+          Positioned(child: Text(classGrades[0], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 40,
+            top:18,
+          ),
+          Positioned(child: Text(classGrades[1], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 177,
+            top:18,
+          ),
+          Positioned(child: Text(classGrades[2], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 40,
+            top:62,
+          ),
+          Positioned(child: Text(classGrades[3], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 177,
+            top:62,
+          ),
+          Positioned(child: Text(classGrades[4], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 40,
+            top:106,
+          ),
+          Positioned(child: Text(classGrades[5], style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),),
+            left: 177,
+            top:106,
+          ),
+          ],),
+          
           SizedBox(height: 10),
           /*if (pickedFile != null)
             Text(
@@ -208,7 +248,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               style: theme.textTheme.bodySmall,
             ),*/
           SizedBox(height: 5),
-          /*CustomElevatedButton(
+          CustomElevatedButton(
               height: 24.v,
               width: 150.h,
               text: "Select File",
@@ -216,19 +256,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
               onPressed: selectFile),
           SizedBox(height: 12),
-          CustomElevatedButton(
-            height: 24.v,
-            width: 150.h,
-            text: "Upload and Transcribe",
-            margin: EdgeInsets.only(right: 17.h),
-            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
-            onPressed: (){
-              
-            },
-          ),
-          SizedBox(
-            height: 12,
-          ),*/
+
+          pickedFile!=null ?Text(pickedFile!.name) : Text(""),
+          SizedBox(height:5),
           Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -424,45 +454,81 @@ class _HomePageScreenState extends State<HomePageScreen> {
     //Create a new instance of the PdfTextExtractor.
     PdfTextExtractor extractor = PdfTextExtractor(document);
     List<TextLine> result = extractor.extractTextLines(startPageIndex: 0);
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     Rect textBounds = Rect.fromLTWH(0, 220, 100, 9);
  
     String invoiceNumber = '';
+    String s;
 
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 220, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds); 
-  textBounds = Rect.fromLTWH(0,270,100,9);
-  invoiceNumber+="\n";
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 270, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds); 
-  textBounds = Rect.fromLTWH(0, 320, 100, 9);
-  invoiceNumber+="\n";
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 320, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds); 
-  textBounds = Rect.fromLTWH(0, 380, 100, 9);
-  invoiceNumber+="\n";
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 380, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds); 
-  textBounds = Rect.fromLTWH(0, 450, 100, 9);
-  invoiceNumber+="\n";
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 450, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds);  
-  textBounds = Rect.fromLTWH(0, 500, 100, 9);
-  invoiceNumber+="\n";
-  invoiceNumber+=textFinder(result,textBounds);
-  textBounds = Rect.fromLTWH(500, 220, 60, 9);
-  invoiceNumber+=": ";
-  invoiceNumber+=textFinder(result, textBounds); 
+    
+    s=textFinder(result,textBounds);
+    invoiceNumber+=s;
+    prefs.setString('class1'+user.email!, s);
+    textBounds = Rect.fromLTWH(500, 220, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade1'+user.email!, int.parse(s));
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(0,270,100,9);
+    invoiceNumber+="\n";
+
+
+    s=textFinder(result,textBounds);
+    prefs.setString('class2'+user.email!, s);
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(500, 270, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade2'+user.email!, int.parse(s));
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(0, 320, 100, 9);
+    invoiceNumber+="\n";
+
+
+    s=textFinder(result,textBounds);
+    prefs.setString('class3'+user.email!, s);
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(500, 320, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade3'+user.email!, int.parse(s));
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(0, 380, 100, 9);
+    invoiceNumber+="\n";
+
+
+    s=textFinder(result,textBounds);
+    prefs.setString('class4'+user.email!, s);
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(500, 380, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade4'+user.email!, int.parse(s));
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(0, 450, 100, 9);
+    invoiceNumber+="\n";
+
+
+    s=textFinder(result,textBounds);
+    prefs.setString('class5'+user.email!, s);
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(500, 450, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade5'+user.email!, int.parse(s));
+    invoiceNumber+=s;  
+    textBounds = Rect.fromLTWH(0, 500, 100, 9);
+    invoiceNumber+="\n";
+
+
+    s=textFinder(result,textBounds);
+    prefs.setString('class6'+user.email!, s);
+    invoiceNumber+=s;
+    textBounds = Rect.fromLTWH(500, 220, 60, 9);
+    invoiceNumber+=": ";
+    s=textFinder(result, textBounds);
+    prefs.setInt('grade6'+user.email!, int.parse(s));
+    invoiceNumber+=s;
 
   
  
@@ -503,16 +569,28 @@ void _showResult(String text) {
         ),
       ),
       actions: [
-        CustomElevatedButton(
-            height: 24.v,
-            width: 150.h,
-            text:'Close',
-            margin: EdgeInsets.only(right: 17.h),
-            onPressed: () {
-            Navigator.of(context).pop();
-          },
-            buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
-          )
+        Center(
+          child: CustomElevatedButton(
+              height: 24.v,
+              width: 150.h,
+              text:'Confirm',
+              margin: EdgeInsets.symmetric(),
+              onPressed: () async{
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              for (int i = 1; i <=6; i++) {
+                String? academicValue = prefs.getString('class$i'+user.email!);
+                int? grade = prefs.getInt('grade$i'+user.email!);
+                if(grade!=null&&academicValue!=null){
+                  setState(() {
+                    classGrades[i-1] = academicValue +"\n"+ grade.toString();
+                  });
+                }                 
+              }
+              Navigator.of(context).pop();
+            },
+              buttonTextStyle: CustomTextStyles.labelLargeInterOnErrorContainer,
+            ),
+        )
       ],
     );
   });
