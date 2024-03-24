@@ -1,4 +1,4 @@
-
+Documentation can be found at this google doc: https://docs.google.com/document/d/1T8RYlMnuZ_tyTbtUuXJjCGaTCK7s6uLFywY-oVeQaVk/edit?usp=sharing
 # scholarx
 ### Table of contents
 - [System requirements](#system-requirements)
